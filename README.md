@@ -1,162 +1,149 @@
-🎤 Karaoke Management System
+# 🎤 Karaoke Management System
 
-A PHP-based web application for managing karaoke events — built to handle song requests, queue management, and event control for both users and administrators.
+A **PHP-based web application** for managing karaoke events — handling song requests, queue management, and event control for both **users** and **administrators**.
 
-The system allows users to request songs in real-time, while administrators manage the event queue, approve or reject song requests, and track performance history.
+Users can submit song requests in real time, while admins manage the live queue, approve or reject requests, and track event history.
 
-📁 Project Structure
+---
+
+## 📁 Project Structure
+
+```
 karaoke/
-│
-├── .venv/                  # Python virtual environment (for QR generation)
-│
-├── assets/                 # CSS, JS, images, and static resources
-│
-├── includes/               # Reusable PHP modules
-│   ├── db.php              # Database connection configuration
-│   └── functions.php       # Helper functions (CRUD operations, validation, etc.)
-│
-├── public/                 # Main application pages (PHP)
-│   ├── admin.php           # Admin dashboard (song queue, management)
-│   ├── dashboard.php       # Overview for admins or users
-│   ├── history.php         # Displays past performances
-│   ├── home.php            # Landing page
-│   ├── index.php           # Entry point / login redirect
-│   ├── login.php           # Login page for users/admins
-│   ├── logout.php          # Session logout script
-│   ├── navbar.php          # Shared navigation bar
-│   ├── navbar-admin.php    # Admin-specific navigation bar
-│   ├── navbar-user.php     # User-specific navigation bar
-│   ├── queue.php           # Live queue view (real-time song order)
-│   ├── requests.php        # Displays all user requests
-│   ├── songs.php           # Manage song list (CRUD)
-│   ├── status.php          # Updates or checks current event status
-│   ├── tables.php          # Displays data tables with search/filter
-│   └── footer.php          # Common footer for all pages
-│
-├── qr_out/                 # Auto-generated QR images
-│
-├── qr_codes.pdf            # Combined QR export (generated via qr-codes.py)
-├── qr-codes.py             # Python script for batch QR generation
-│
-└── README.md               # You are here
+├─ .venv/                  # Python venv (QR generator)
+├─ assets/                 # CSS, JS, images
+├─ includes/
+│  ├─ db.php               # DB connection
+│  └─ functions.php        # Helpers (CRUD, validation)
+├─ public/
+│  ├─ admin.php            # Admin dashboard
+│  ├─ dashboard.php
+│  ├─ history.php
+│  ├─ home.php
+│  ├─ index.php            # Entry / routing
+│  ├─ login.php
+│  ├─ logout.php
+│  ├─ navbar.php
+│  ├─ navbar-admin.php
+│  ├─ navbar-user.php
+│  ├─ queue.php            # Live queue view
+│  ├─ requests.php         # All requests
+│  ├─ songs.php            # Catalog CRUD
+│  ├─ status.php
+│  └─ tables.php
+├─ qr_out/                 # Generated QR images
+├─ qr_codes.pdf            # Combined QR export
+├─ qr-codes.py             # QR generator
+└─ README.md
+```
 
-⚙️ Features
-🧍‍♀️ User Functions
+---
 
-Browse and search songs available in the system.
+## ⚙️ Features
 
-Submit song requests with their name and table number.
+### User
+- Browse and search songs  
+- Submit a song request (name/table number, optional note)  
+- View request status and history  
+- Logout securely  
 
-View personal request history and queue status.
+### Admin
+- Approve or reject requests  
+- Reorder queue and mark *Singing* / *Done*  
+- Manage song catalog (add/edit/delete)  
+- Track history and generate reports  
+- Access admin area via secure login  
 
-Logout safely from the session.
+### Extras
+- Batch **QR code generation** (`qr-codes.py`)  
+  - Creates PNGs in `qr_out/`  
+  - Combines them into `qr_codes.pdf`
 
-👩‍💼 Admin Functions
+---
 
-Manage song catalog (add, edit, delete).
+## 💻 Technologies Used
 
-Review, approve, or reject user requests.
+- **Frontend:** HTML5, CSS3, Bootstrap, JavaScript (ES6), DataTables  
+- **Backend:** PHP (Procedural)  
+- **Database:** MySQL (via XAMPP)  
+- **Server:** Apache  
+- **Utilities:** Python (QR generation), FPDF, qrcode libraries  
+- **Data Handling:** AJAX  
 
-Monitor the live queue and reorder songs if needed.
+---
 
-Track performance history and generate reports.
+## 🗃️ Database Configuration
 
-Access admin dashboard with secure login credentials.
+**File:** `includes/db.php`
 
-🧩 Additional Tools
-
-QR Code Generator (qr-codes.py): Generates unique QR codes for each table or participant and compiles them into a single PDF (qr_codes.pdf).
-
-Reusable PHP includes: For clean modular code and better maintainability.
-
-💻 Technologies Used
-Type	Technology
-Frontend	HTML5, CSS3, Bootstrap, JavaScript
-Backend	PHP (Procedural)
-Database	MySQL (via XAMPP)
-Server	Apache (localhost or deployment server)
-Additional Tools	Python (for QR generation), FPDF / qrcode libraries
-DataTables / AJAX	For dynamic table updates and filtering
-🗃️ Database Configuration
-
-Database file: includes/db.php
-
-Example connection:
-
+```php
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
-$database = "karaoke_db";
+$username   = "root";
+$password   = "";
+$database   = "karaoke_db";
 
 $conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 ?>
+```
 
+### Main Tables
+- `users` – login/roles  
+- `songs` – catalog  
+- `requests` – user song requests  
+- `history` – completed performances  
 
-Tables (example):
+---
 
-users → manages login info and roles (admin/user)
+## 🚀 Installation (Local Setup)
 
-songs → list of available songs
+1. Install **XAMPP** and start **Apache** + **MySQL**  
+2. Copy the folder to:  
+   ```
+   C:\xampp\htdocs\karaoke
+   ```
+3. Create a database `karaoke_db` in **phpMyAdmin**  
+4. Import your SQL schema (or create tables manually)  
+5. Open in your browser:  
+   ```
+   http://localhost/karaoke/public/index.php
+   ```
+6. (Optional) Generate QR codes:  
+   ```
+   python qr-codes.py
+   ```
 
-requests → stores user song requests
+---
 
-history → archives completed performances
+## 🧾 QR Code Generator
 
-🚀 Installation (Local Setup)
-
-Install XAMPP and start Apache & MySQL.
-
-Copy the karaoke folder into:
-
-C:\xampp\htdocs\
-
-
-Create a database named karaoke_db in phpMyAdmin.
-
-Import the SQL schema if available (or create manually based on tables above).
-
-Access the app via browser:
-
-http://localhost/karaoke/public/index.php
-
-
-(Optional) Run the QR generator:
-
+**Run:**
+```
 python qr-codes.py
+```
 
-🧾 QR Code Generator Usage
+**Outputs:**
+- PNG files in `qr_out/`  
+- Combined PDF in `qr_codes.pdf`
 
-Generate QR codes for tables or participants:
+---
 
-python qr-codes.py
+## 🧠 Roadmap
 
+- Real-time updates with WebSockets  
+- Role-based permissions  
+- Analytics (top songs, wait times)  
+- CSV/Excel export  
+- Dark mode support  
+- Modern frontend (React/Vue)
 
-Output:
+---
 
-Individual PNGs in qr_out/
+## 👩‍💻 Author
 
-Combined PDF file: qr_codes.pdf
-
-🧠 Future Enhancements
-
-Live notifications for new song requests (AJAX / WebSocket)
-
-Role-based access control (multi-admin support)
-
-Enhanced analytics for top songs & singers
-
-Modernized UI with Vue.js or React frontend
-
-Export queue data as Excel or CSV
-
-👩‍💻 Author
-
-Noura El Achkar
-Master’s in Web Development – Lebanese University
-📧 nouraachkar2002@gmail.com
-
-🔗 LinkedIn
+**Noura El Achkar**  
+📧 nouraachkar2002@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/nouraelachkar)
